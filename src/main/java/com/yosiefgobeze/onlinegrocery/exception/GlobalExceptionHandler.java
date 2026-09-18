@@ -17,4 +17,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleCustomerHasOrders(CustomerHasOrdersException exception){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
+
+    @ExceptionHandler(GroceryItemNotFoundException.class)
+    public ResponseEntity<String> handleGroceryItemNotFound(GroceryItemNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(GroceryItemIsOrdered.class)
+    public ResponseEntity<String> handleGroceryItemIsOrdered(GroceryItemIsOrdered exception){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
 }
