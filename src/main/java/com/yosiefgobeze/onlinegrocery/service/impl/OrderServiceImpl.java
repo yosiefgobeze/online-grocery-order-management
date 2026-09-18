@@ -4,7 +4,7 @@ import com.yosiefgobeze.onlinegrocery.dto.OrderCreateRequest;
 import com.yosiefgobeze.onlinegrocery.dto.OrderResponse;
 import com.yosiefgobeze.onlinegrocery.exception.CustomerNotFoundException;
 import com.yosiefgobeze.onlinegrocery.exception.GroceryItemNotFoundException;
-import com.yosiefgobeze.onlinegrocery.exception.OrderCanNotBePlaced;
+import com.yosiefgobeze.onlinegrocery.exception.OrderNotFoundException;
 import com.yosiefgobeze.onlinegrocery.model.Customer;
 import com.yosiefgobeze.onlinegrocery.model.GroceryItem;
 import com.yosiefgobeze.onlinegrocery.model.Order;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -49,6 +49,23 @@ public class OrderServiceImpl implements OrderService {
             }
         Order savedOrder = orderRepository.save(createNewOrder(customer, groceryItems));
         return mapToResponse(savedOrder);
+    }
+
+    @Override
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAll().stream().map(this::mapToResponse).toList();
+    }
+
+    @Override
+    public OrderResponse getOrderById(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        return mapToResponse(order);
+    }
+
+    @Override
+    public void deleteOrderById(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        orderRepository.delete(order);
     }
 
     private Order createNewOrder(Customer customer, Set<GroceryItem> groceryItems){
