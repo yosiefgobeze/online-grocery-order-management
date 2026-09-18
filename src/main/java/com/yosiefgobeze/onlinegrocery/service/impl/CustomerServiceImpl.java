@@ -1,5 +1,7 @@
 package com.yosiefgobeze.onlinegrocery.service.impl;
 
+import com.yosiefgobeze.onlinegrocery.dto.CustomerCreateRequest;
+import com.yosiefgobeze.onlinegrocery.dto.CustomerResponse;
 import com.yosiefgobeze.onlinegrocery.dto.CustomerUpdateRequest;
 import com.yosiefgobeze.onlinegrocery.exception.CustomerHasOrdersException;
 import com.yosiefgobeze.onlinegrocery.exception.CustomerNotFoundException;
@@ -19,23 +21,31 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerResponse> getAllCustomers() {
+
+        return customerRepository.findAll().stream().map(this::mapToResponse).toList();
     }
 
     @Override
-    public Customer createCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public CustomerResponse createCustomer(CustomerCreateRequest request) {
+        Customer customer = new Customer();
+        customer.setName(request.getName());
+        customer.setEmail(request.getEmail());
+        customer.setAddress(request.getAddress());
+        customer.setPhone(request.getPhone());
+        Customer savedCustomer = customerRepository.save(customer);
+        return mapToResponse(savedCustomer);
     }
 
     @Override
-    public Customer getCustomerById(Long id) {
-        return customerRepository.findById(id)
+    public CustomerResponse getCustomerById(Long id) {
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
+        return mapToResponse(customer);
     }
 
     @Override
-    public Customer updateCustomerById(CustomerUpdateRequest request, Long id) {
+    public CustomerResponse updateCustomerById(CustomerUpdateRequest request, Long id) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
 
@@ -44,7 +54,8 @@ public class CustomerServiceImpl implements CustomerService {
         existingCustomer.setEmail(request.getEmail());
         existingCustomer.setPhone(request.getPhone());
 
-        return customerRepository.save(existingCustomer);
+        Customer savedCustomer = customerRepository.save(existingCustomer);
+        return mapToResponse(savedCustomer);
     }
 
     @Override
@@ -54,5 +65,17 @@ public class CustomerServiceImpl implements CustomerService {
             throw new CustomerHasOrdersException(id);
         }
         customerRepository.delete(customer);
+    }
+
+    private CustomerResponse mapToResponse(Customer customer) {
+        CustomerResponse response = new CustomerResponse();
+
+        response.setId(customer.getId());
+        response.setName(customer.getName());
+        response.setEmail(customer.getEmail());
+        response.setAddress(customer.getAddress());
+        response.setPhone(customer.getPhone());
+
+        return response;
     }
 }

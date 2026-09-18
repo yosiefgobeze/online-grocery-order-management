@@ -1,5 +1,7 @@
 package com.yosiefgobeze.onlinegrocery.controller;
 
+import com.yosiefgobeze.onlinegrocery.dto.CustomerCreateRequest;
+import com.yosiefgobeze.onlinegrocery.dto.CustomerResponse;
 import com.yosiefgobeze.onlinegrocery.dto.CustomerUpdateRequest;
 import com.yosiefgobeze.onlinegrocery.model.Customer;
 import com.yosiefgobeze.onlinegrocery.service.CustomerService;
@@ -21,28 +23,28 @@ public class CustomerController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Customer>> getAllCustomers(){
-        List<Customer> listOfCustomers = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers(){
+        List<CustomerResponse> listOfCustomers = customerService.getAllCustomers();
         return ResponseEntity.ok(listOfCustomers);
     }
 
     @PostMapping()
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
-        Customer savedCustomer = customerService.createCustomer(customer);
+    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CustomerCreateRequest request){
+        CustomerResponse savedCustomer = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
     }
 
     @GetMapping( "/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id){
-        Customer customer = customerService.getCustomerById(id);
-        return ResponseEntity.ok(customer);
+    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id){
+        CustomerResponse response = customerService.getCustomerById(id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomerById(
+    public ResponseEntity<CustomerResponse> updateCustomerById(
             @Valid @RequestBody CustomerUpdateRequest request,
             @PathVariable Long id){
-        Customer updatedCustomer = customerService.updateCustomerById(request, id);
+        CustomerResponse updatedCustomer = customerService.updateCustomerById(request, id);
         return ResponseEntity.ok(updatedCustomer);
     }
 

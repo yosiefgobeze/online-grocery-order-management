@@ -1,6 +1,8 @@
 package com.yosiefgobeze.onlinegrocery.controller;
 
 import com.yosiefgobeze.onlinegrocery.dto.CustomerUpdateRequest;
+import com.yosiefgobeze.onlinegrocery.dto.GroceryItemCreateRequest;
+import com.yosiefgobeze.onlinegrocery.dto.GroceryItemResponse;
 import com.yosiefgobeze.onlinegrocery.dto.GroceryItemUpdateRequest;
 import com.yosiefgobeze.onlinegrocery.model.Customer;
 import com.yosiefgobeze.onlinegrocery.model.GroceryItem;
@@ -22,28 +24,28 @@ public class GroceryItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GroceryItem>> getAllGroceryItems(){
-        List<GroceryItem> groceryItems = groceryItemService.getAllGroceryItems();
+    public ResponseEntity<List<GroceryItemResponse>> getAllGroceryItems(){
+        List<GroceryItemResponse> groceryItems = groceryItemService.getAllGroceryItems();
         return ResponseEntity.ok(groceryItems);
     }
 
     @PostMapping
-    public ResponseEntity<GroceryItem> createGroceryItem(@RequestBody GroceryItem groceryItem){
-        GroceryItem savedGroceryItem = groceryItemService.createGroceryItem(groceryItem);
+    public ResponseEntity<GroceryItemResponse> createGroceryItem(@RequestBody GroceryItemCreateRequest request){
+        GroceryItemResponse savedGroceryItem = groceryItemService.createGroceryItem(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedGroceryItem);
     }
 
     @GetMapping( "/{id}")
-    public ResponseEntity<GroceryItem> getGroceryItemById(@PathVariable Long id){
-        GroceryItem groceryItem = groceryItemService.getGroceryItemById(id);
+    public ResponseEntity<GroceryItemResponse> getGroceryItemById(@PathVariable Long id){
+        GroceryItemResponse groceryItem = groceryItemService.getGroceryItemById(id);
         return ResponseEntity.ok(groceryItem);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GroceryItem> updateGroceryItemById(
+    public ResponseEntity<GroceryItemResponse> updateGroceryItemById(
             @Valid @RequestBody GroceryItemUpdateRequest request,
             @PathVariable Long id){
-        GroceryItem updatedGroceryItem = groceryItemService.updateGroceryItemById(request, id);
+        GroceryItemResponse updatedGroceryItem = groceryItemService.updateGroceryItemById(request, id);
         return ResponseEntity.ok(updatedGroceryItem);
     }
 
@@ -52,4 +54,5 @@ public class GroceryItemController {
         groceryItemService.deleteGroceryItem(id);
         return ResponseEntity.noContent().build();
     }
+
 }

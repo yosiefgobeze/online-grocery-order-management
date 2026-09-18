@@ -2,6 +2,8 @@ package com.yosiefgobeze.onlinegrocery.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -9,7 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name="grocery_items")
-@Data
+@Getter
+@Setter
 public class GroceryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

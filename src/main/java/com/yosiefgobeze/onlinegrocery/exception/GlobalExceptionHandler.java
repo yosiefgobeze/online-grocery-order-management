@@ -1,5 +1,6 @@
 package com.yosiefgobeze.onlinegrocery.exception;
 
+import com.yosiefgobeze.onlinegrocery.model.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,5 +27,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(GroceryItemIsOrdered.class)
     public ResponseEntity<String> handleGroceryItemIsOrdered(GroceryItemIsOrdered exception){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(OrderCanNotBePlaced.class)
+    public ResponseEntity<String> handleOrderCanNotBePlaced(OrderCanNotBePlaced exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 }

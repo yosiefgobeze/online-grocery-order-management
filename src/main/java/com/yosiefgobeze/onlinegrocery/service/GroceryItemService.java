@@ -1,5 +1,7 @@
 package com.yosiefgobeze.onlinegrocery.service;
 
+import com.yosiefgobeze.onlinegrocery.dto.GroceryItemCreateRequest;
+import com.yosiefgobeze.onlinegrocery.dto.GroceryItemResponse;
 import com.yosiefgobeze.onlinegrocery.dto.GroceryItemUpdateRequest;
 import com.yosiefgobeze.onlinegrocery.model.GroceryItem;
 import jakarta.validation.Valid;
@@ -7,13 +9,13 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 public interface GroceryItemService {
-    List<GroceryItem> getAllGroceryItems();
+    List<GroceryItemResponse> getAllGroceryItems();
 
-    GroceryItem createGroceryItem(GroceryItem groceryItem);
+    GroceryItemResponse createGroceryItem(GroceryItemCreateRequest groceryItem);
 
-    GroceryItem getGroceryItemById(Long id);
+    GroceryItemResponse getGroceryItemById(Long id);
 
-    GroceryItem updateGroceryItemById(GroceryItemUpdateRequest request, Long id);
+    GroceryItemResponse updateGroceryItemById(GroceryItemUpdateRequest request, Long id);
 
     void deleteGroceryItem(Long id);
 }

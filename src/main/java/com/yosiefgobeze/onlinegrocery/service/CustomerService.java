@@ -1,18 +1,20 @@
 package com.yosiefgobeze.onlinegrocery.service;
 
+import com.yosiefgobeze.onlinegrocery.dto.CustomerCreateRequest;
+import com.yosiefgobeze.onlinegrocery.dto.CustomerResponse;
 import com.yosiefgobeze.onlinegrocery.dto.CustomerUpdateRequest;
 import com.yosiefgobeze.onlinegrocery.exception.CustomerHasOrdersException;
 import com.yosiefgobeze.onlinegrocery.model.Customer;
 import java.util.List;
 
 public interface CustomerService {
-    List<Customer> getAllCustomers();
+    List<CustomerResponse> getAllCustomers();
 
-    Customer createCustomer(Customer customer);
+    CustomerResponse createCustomer(CustomerCreateRequest request);
 
-    Customer getCustomerById(Long id);
+    CustomerResponse getCustomerById(Long id);
 
-    Customer updateCustomerById(CustomerUpdateRequest request, Long id);
+    CustomerResponse updateCustomerById(CustomerUpdateRequest request, Long id);
 
     void deleteCustomerById(Long id);
 }
